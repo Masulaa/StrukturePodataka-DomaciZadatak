@@ -29,7 +29,7 @@ The application simulates a large number of Minesweeper matches played by automa
 Run:
 
 ```java
-Main()
+Main.java
 ```
 
 This generates:
