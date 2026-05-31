@@ -16,25 +16,27 @@ public class Player {
 
     public GameOutcome playTurn() {
 
-        int size = getBoardSize();
+        int size = board.getSize();
 
         while (true) {
+
             int r = random.nextInt(size);
             int c = random.nextInt(size);
 
-            // pokušava dok ne nađe HIDDEN polje
-            try {
-                Cell cell = getCell(r, c);
-                if (cell.getState() == CellState.HIDDEN) {
+            Cell cell = board.getCell(r, c);
 
-                    board.revealCell(r, c);
+            if (cell.getState() == CellState.HIDDEN) {
 
-                    boolean wasSafe = !cell.isMine();
-                    moveHistory.insert(new Move(r, c, wasSafe));
+                board.revealCell(r, c);
 
-                    return board.getGameState();
-                }
-            } catch (Exception ignored) {}
+                boolean wasSafe = !cell.isMine();
+
+                moveHistory.insert(
+                    new Move(r, c, wasSafe)
+                );
+
+                return board.getGameState();
+            }
         }
     }
 
@@ -42,21 +44,4 @@ public class Player {
         return moveHistory;
     }
 
-    // pomoćne metode (jer je grid private u Board)
-    private Cell getCell(int r, int c) throws Exception {
-        java.lang.reflect.Field gridField = Board.class.getDeclaredField("grid");
-        gridField.setAccessible(true);
-        Cell[][] grid = (Cell[][]) gridField.get(board);
-        return grid[r][c];
-    }
-
-    private int getBoardSize() {
-        try {
-            java.lang.reflect.Field sizeField = Board.class.getDeclaredField("size");
-            sizeField.setAccessible(true);
-            return (int) sizeField.get(board);
-        } catch (Exception e) {
-            return 0;
-        }
-    }
 }

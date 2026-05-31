@@ -82,9 +82,11 @@ public class Board {
         queue.enqueue(row, col);
 
         while (!queue.isEmpty()) {
-            int[] coords = queue.dequeue();
-            int r = coords[0];
-            int c = coords[1];
+        	
+        	Coordinate coords = queue.dequeue();
+
+        	int r = coords.getRow();
+        	int c = coords.getCol();
 
             Cell current = grid[r][c];
 
@@ -133,5 +135,13 @@ public class Board {
         if (allSafeRevealed) return GameOutcome.VICTORY;
 
         return GameOutcome.IN_PROGRESS;
+    }
+    
+    public int getSize() {
+        return size;
+    }
+
+    public Cell getCell(int row, int col) {
+        return grid[row][col];
     }
 }

@@ -27,19 +27,20 @@ public class CoordinateQueue {
         }
     }
 
-    public int[] dequeue() {
+    public Coordinate dequeue() {
         if (head == null) return null;
 
-        int[] coords = { head.row, head.col };
+        Coordinate coord = new Coordinate(head.row, head.col);
+
         head = head.next;
 
         if (head == null) {
             tail = null;
         }
 
-        return coords;
+        return coord;
     }
-
+    
     public boolean isEmpty() {
         return head == null;
     }
